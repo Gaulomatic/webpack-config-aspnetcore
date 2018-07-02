@@ -8,4 +8,11 @@ import { Component } from "@angular/core";
 })
 export class RootComponent
 {
+	public Text: string = "Hello from Angular";
+
+	public OnButtonClick(e): void
+	{
+		this.Text = "Make it so, Number One!";
+	}
 }
+

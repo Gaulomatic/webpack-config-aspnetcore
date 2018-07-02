@@ -16,7 +16,10 @@ import { RootComponent }    from "./Root.component";
 		RootModuleShared,
 
 		ServerModule,
-		PrebootModule.withConfig({appRoot: "app-root"}),
+
+		// This does not work because......... reasons.
+		// PrebootModule.withConfig({appRoot: "app-root"}),
+
 		NoopAnimationsModule,
 
 		// HttpTransferCacheModule still needs fixes for 5.0

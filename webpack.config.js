@@ -160,7 +160,7 @@ const GetServerConfig = (dirname, isDevelopment) =>
 					context: dirname,
 					manifest: require(path.join(dirname, "Client/dist/vendor/vendor-manifest.json")),
 					sourceType: "commonjs2",
-					name: "./vendor"
+					name: "./../vendor/vendor"
 				})
 			])
 
@@ -191,7 +191,8 @@ const GetServerConfig = (dirname, isDevelopment) =>
 					mainPath: path.join(dirname, "Client/boot.server.PRODUCTION.ts"),
 					tsConfigPath: path.join(dirname, "tsconfig.json"),
 					entryModule: path.join(dirname, "Application/Root.module.server#RootModule"),
-					exclude: [ dirname + "/**/*.browser.ts" ]
+					exclude: [ dirname + "/**/*.browser.ts" ],
+					platform: 1
 				})
 			]),
 

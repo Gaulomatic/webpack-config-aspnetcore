@@ -93,7 +93,10 @@ namespace Logixware.AspNet.Angular
 //				}
 //			});
 
-			if (env.IsDevelopment())
+			var __IsDevelopment = env.IsDevelopment();
+//			__IsDevelopment = false;
+
+			if (__IsDevelopment)
 			{
 				app.UseDeveloperExceptionPage();
 

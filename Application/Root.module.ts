@@ -7,26 +7,24 @@ import { TransferHttpCacheModule } from "@nguniversal/common";
 
 import { RootComponent }           from "./Root.component";
 
-import "style-loader!./../Styles/Styles.scss";
+// import "style-loader!./../Styles/Styles.scss";
 
 @NgModule
 ({
 	imports:
 	[
-
 		/*------------------------------------------------------------------
 			Angular
 		--------------------------------------------------------------------*/
 
 		CommonModule,
-		BrowserModule,
 
 		/*------------------------------------------------------------------
 			Server Rendering
 		--------------------------------------------------------------------*/
 
 		BrowserModule.withServerTransition({
-			appId: "my-app-id" // make sure this matches with your Server NgModule
+			appId: "angular-template" // make sure this matches with your Server NgModule
 		}),
 		TransferHttpCacheModule,
 		BrowserTransferStateModule,
