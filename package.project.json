@@ -1,0 +1,30 @@
+{
+	"name": "logixware.aspnetcore.angular",
+	"version": "0.0.1",
+	"description": "Tobias Punke",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Gaulomatic/logixware-aspnetcore-angular"
+	},
+	"scripts": {
+		"preinstall": "node merge.js",
+		"postinstall": "bower install",
+		"clean": "rimraf wwwroot/dist client/dist",
+		"clean:install": "npm run clean && rimraf ./node_modules ./bin ./obj ./package-lock.json && dotnet restore && npm i",
+		"lint": "tslint -p tsconfig.json",
+		"test": "npm run build:vendor && karma start Client/test/karma.conf.js",
+		"test:watch": "npm run test -- --auto-watch --no-single-run",
+		"test:ci": "npm run test -- --browsers PhantomJS_custom",
+		"test:ci:watch": "npm run test:ci -- --auto-watch --no-single-run",
+		"test:coverage": "npm run test -- --coverage",
+		"webpack": "webpack --progress --color",
+		"webpack:prod": "npm run webpack -- --env.prod",
+		"vendor": "webpack --config webpack.config.vendor.js --progress --color",
+		"vendor:prod": "npm run vendor -- --env.prod",
+		"dev": "npm run vendor && npm run webpack",
+		"prod": "npm run clean && npm run vendor -- --env.prod && npm run webpack -- --env.prod"
+	},
+	"dependencies": {
+	}
+}

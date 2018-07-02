@@ -1,0 +1,120 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <DockerComposeProjectPath>docker-compose.dcproj</DockerComposeProjectPath>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <RootNamespace>Logixware.AspNet.Angular</RootNamespace>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyTrademarkAttribute>false</GenerateAssemblyTrademarkAttribute>
+    <GenerateAssemblyCultureAttribute>false</GenerateAssemblyCultureAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyGuidAttribute>false</GenerateAssemblyGuidAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Files not to compile -->
+    <Compile Remove="Application\**" />
+    <Compile Remove="Assets\**" />
+    <Compile Remove="Client\**" />
+    <Compile Remove="Libraries\**" />
+    <Compile Remove="Logixware\**" />
+    <Compile Remove="Styles\**" />
+    <Compile Remove="Translations\**" />
+    <Compile Remove="wwwroot\dist\**" />
+    <Compile Remove="coverage\**" />
+    <!-- Files not to embed -->
+    <EmbeddedResource Remove="Application\**" />
+    <EmbeddedResource Remove="Assets\**" />
+    <EmbeddedResource Remove="Client\**" />
+    <EmbeddedResource Remove="Libraries\**" />
+    <EmbeddedResource Remove="Logixware\**" />
+    <EmbeddedResource Remove="Styles\**" />
+    <EmbeddedResource Remove="Translations\**" />
+    <EmbeddedResource Remove="wwwroot\dist\**" />
+    <EmbeddedResource Remove="coverage\**" />
+    <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Content Remove="Application\**" />
+    <Content Remove="Assets\**" />
+    <Content Remove="Client\**" />
+    <Content Remove="Libraries\**" />
+    <Content Remove="Logixware\**" />
+    <Content Remove="Styles\**" />
+    <Content Remove="Translations\**" />
+    <Content Remove="wwwroot\dist\**" />
+    <Content Remove="coverage\**" />
+    <Content Remove="angular.json" />
+    <Content Remove="bower.json" />
+    <Content Remove="package-lock.json" />
+    <Content Remove="package.angular.json" />
+    <Content Remove="package.angular.universal.json" />
+    <Content Remove="package.app.json" />
+    <Content Remove="package.aspnet.json" />
+    <Content Remove="package.dev.json" />
+    <Content Remove="package.dev.tests.json" />
+    <Content Remove="package.dev.webpack.json" />
+    <Content Remove="package.polyfills.json" />
+    <Content Remove="package.project.json" />
+    <Content Remove="package.json" />
+    <Content Remove="tsconfig.json" />
+    <Content Remove="tslint.json" />
+    <Content Remove="yarn.lock" />
+    <!-- Files not to show in IDE -->
+    <None Include="angular.json" />
+    <!-- Files to show in IDE -->
+    <None Include="Logixware.AspNet.Angular.csproj" />
+    <None Include="docker-compose.dcproj" />
+    <None Remove="Client\dist\**" />
+    <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Translations" />
+  </ItemGroup>
+  <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <!-- In development, the dist files won't exist on the first run or when cloning to
+			  a different machine, so rebuild them if not already present. -->
+    <Message Importance="high" Text="Performing first-run Webpack build..." />
+    <Exec Command="npm install" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js" />
+  </Target>
+  <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec Command="npm install" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="wwwroot\dist\**; Client\dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+  <Target Name="CleanDist" AfterTargets="Clean">
+    <ItemGroup>
+      <FilesToDelete Include="Client\dist\**; wwwroot\dist\**" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+    <RemoveDir Directories="Client\dist; wwwroot\dist" />
+  </Target>
+</Project>

@@ -1,0 +1,9 @@
+{
+	"dependencies": {
+		"core-js": "2.5.7",
+		"event-source-polyfill": "^0.0.12",
+		"isomorphic-fetch": "^2.2.1",
+		"reflect-metadata": "^0.1.12",
+    	"web-animations-js": "2.3.1"
+	}
+}

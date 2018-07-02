@@ -1,0 +1,22 @@
+﻿@using System.IO
+@model HomeViewModel
+
+@if (File.Exists(System.IO.Path.Combine(base.Model.WebRoot, "dist", "vendor", "vendor.css")))
+{
+	@section Links
+	{
+		<link rel="stylesheet" href="~/dist/vendor/vendor.css" asp-append-version="true" />
+	}
+}
+
+@* Remove this if you want to remove Server-side rendering *@
+@Html.Raw(ViewData["SpaHtml"])
+
+@* if you only want Client-side rendering uncomment this *@
+@* <app-root></app-root> *@
+
+@section Scripts
+{
+	<script src="~/dist/vendor/vendor.js" asp-append-version="true"></script>
+	<script src="~/dist/application/main-client.js" asp-append-version="true"></script>
+}

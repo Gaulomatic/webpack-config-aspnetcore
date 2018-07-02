@@ -1,0 +1,11 @@
+{
+	"dependencies": {
+		"@nguniversal/aspnetcore-engine": "^6.0.0",
+		"@nguniversal/common": "^6.0.0",
+		"@angular/platform-server": "^6.0.7",
+		"aspnet-prerendering": "^3.0.1",
+		"preboot": "^6.0.0-beta.4"
+	},
+	"devDependencies": {
+	}
+}

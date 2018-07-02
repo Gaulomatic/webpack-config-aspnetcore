@@ -1,0 +1,13 @@
+{
+	"dependencies": {
+	},
+	"devDependencies": {
+		"bower": "^1.8.4",
+		"css": "^2.2.3",
+		"less": "^3.0.4",
+		"node-sass": "^4.9.0",
+		"package-json-merge": "^0.0.1",
+		"typescript": "^2.7.2",
+		"tslint": "^5.10.0"
+	}
+}
